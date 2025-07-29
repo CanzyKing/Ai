@@ -17,7 +17,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install default-jdk gcc -y
 
-    - name: Unzip source.zip
+    - name: Unzip ParrotCheatsold.zip
       run: unzip ParrotCheatsold.zip -d ./unzipped
 
     - name: Compile native C to .so
