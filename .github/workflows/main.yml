@@ -1,0 +1,29 @@
+name: Java with Native C JNI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v3
+
+    - name: Install Java & GCC
+      run: |
+        sudo apt update
+        sudo apt install default-jdk gcc g++ -y
+
+    - name: Compile Native C
+      run: |
+        cd native/
+        gcc -c -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux native-lib.c
+        gcc -shared -o libnative-lib.so native-lib.o
+
+    - name: Compile Java Class
+      run: |
+        javac -h native/ NativeLib.java
+        java -Djava.library.path=native Main
